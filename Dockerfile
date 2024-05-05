@@ -1,4 +1,4 @@
-#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
+﻿#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 # apt update and install fonts
@@ -19,12 +19,12 @@ RUN mkdir -p /app/https && \
     -subj "/C=US/ST=State/L=City/O=Organization/CN=localhost" && \
     openssl pkcs12 -export -out /app/https/aspnetapp.pfx \
     -inkey /app/https/private.key -in /app/https/certificate.crt \
-    -password pass:CREDENTIAL_PLACEHOLDER
+    -password pass:Password@123
 
 
 # Setup environment variables for the application to find the certificate
 ENV ASPNETCORE_URLS=http://+:80;https://+:443
-ENV ASPNETCORE_Kestrel__Certificates__Default__Password="CREDENTIAL_PLACEHOLDER"
+ENV ASPNETCORE_Kestrel__Certificates__Default__Password="Password@123"
 ENV ASPNETCORE_Kestrel__Certificates__Default__Path="/app/https/aspnetapp.pfx"
 
 WORKDIR /app
@@ -39,6 +39,7 @@ WORKDIR /src
 COPY ["src/Migrators/Migrators.MSSQL/Migrators.MSSQL.csproj", "src/Migrators/Migrators.MSSQL/"]
 COPY ["src/Migrators/Migrators.PostgreSQL/Migrators.PostgreSQL.csproj", "src/Migrators/Migrators.PostgreSQL/"]
 COPY ["src/Migrators/Migrators.SqLite/Migrators.SqLite.csproj", "src/Migrators/Migrators.SqLite/"]
+COPY ["src/Migrators/Migrators.OleDB/Migrators.OleDB.csproj", "src/Migrators/Migrators.OleDB/"]
 
 COPY ["src/Server.UI/Server.UI.csproj", "src/Server.UI/"]
 COPY ["src/Server/Server.csproj", "src/Server/"]

@@ -18,6 +18,7 @@ using FluentEmail.MailKitSmtp;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
+using Serilog;
 using ZiggyCreatures.Caching.Fusion;
 
 namespace CleanArchitecture.Blazor.Infrastructure;
@@ -93,6 +94,7 @@ public static class DependencyInjection
     private static DbContextOptionsBuilder UseDatabase(this DbContextOptionsBuilder builder, string dbProvider,
         string connectionString)
     {
+        // Switch for SQL Injections.
         switch (dbProvider.ToLowerInvariant())
         {
             case DbProviderKeys.Npgsql:
@@ -108,6 +110,14 @@ public static class DependencyInjection
             case DbProviderKeys.SqLite:
                 return builder.UseSqlite(connectionString,
                     e => e.MigrationsAssembly("CleanArchitecture.Blazor.Migrators.SqLite"));
+
+            //TODO:
+            // Need to make an injection for OLE DB for Oracle.
+            case DbProviderKeys.OleDB:
+                return builder.UseSqlite(connectionString,
+                    e => e.MigrationsAssembly("CleanArchitecture.Blazor.Migrators.OleDB"));
+            //return builder.UseSqlite(connectionString,
+            //    e => e.MigrationsAssembly("CleanArchitecture.Blazor.Migrators.OLE")); ;
 
             default:
                 throw new InvalidOperationException($"DB Provider {dbProvider} is not supported.");
