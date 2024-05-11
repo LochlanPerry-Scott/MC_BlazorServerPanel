@@ -7,8 +7,8 @@
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - UseInMemoryDatabase=false
-      - DatabaseSettings__DBProvider=obe
-      - DatabaseSettings__ConnectionString=User Id=DEV;Password=If(!password0);Data Source=(description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1521)(host=adb.ap-sydney-1.oraclecloud.com))(connect_data=(service_name=g2cdd259f5e9502_serverpaneldatabase_high.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)));Connection Timeout=30;
+      - DatabaseSettings__DBProvider=postgresql
+      - DatabaseSettings__ConnectionString=Server=152.67.110.193;Database=BlazorDashboardDB;User Id=dev;Password=db_Darksoul84;Port=31864;Connection Timeout=30;
       - AppConfigurationSettings__ApplicationUrl=https://TestingBlazor.server.com
       - SmtpClientOptions__Server=
       - SmtpClientOptions__Port=

@@ -5,6 +5,8 @@ using System.Reflection;
 using CleanArchitecture.Blazor.Domain.Common.Entities;
 using CleanArchitecture.Blazor.Domain.Identity;
 using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
+using Oracle.ManagedDataAccess.Client;
+using Serilog;
 
 namespace CleanArchitecture.Blazor.Infrastructure.Persistence;
 
@@ -39,8 +41,13 @@ public class ApplicationDbContext : IdentityDbContext<
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
+        // optionsBuilder.UseOracle(@"User Id=DEV;Password=If(!password0);Data Source=(description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1521)(host=adb.ap-sydney-1.oraclecloud.com))(connect_data=(service_name=g2cdd259f5e9502_serverpaneldatabase_high.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))");
+
+        // OracleConfiguration.WalletLocation = OracleConfiguration.TnsAdmin;
+
         if (!optionsBuilder.IsConfigured)
         {
+            Log.Debug("Testing");
         }
     }
 }
