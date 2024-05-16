@@ -1,4 +1,4 @@
-namespace CleanArchitecture.Blazor.Infrastructure.Configurations;
+﻿namespace CleanArchitecture.Blazor.Infrastructure.Configurations;
 
 public class IdentitySettings : IIdentitySettings
 {
@@ -16,12 +16,12 @@ public class IdentitySettings : IIdentitySettings
     /// <summary>
     ///     Gets or sets a value indicating what the minimum required length of a password should be.
     /// </summary>
-    public int RequiredLength { get; set; } = 6;
+    public int RequiredLength { get; set; } = 10;
 
     /// <summary>
     ///     Gets or sets a value indicating what the maximum required length of a password should be.
     /// </summary>
-    public int MaxLength { get; set; } = 16;
+    public int MaxLength { get; set; } = 20;
 
     /// <summary>
     ///     Gets or sets a value indicating whether the password should require a non-alphanumeric(not: 0-9, A-Z) character.

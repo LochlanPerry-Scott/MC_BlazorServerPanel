@@ -85,14 +85,14 @@ public class ApplicationDbContextInitializer
         // Default tenants
         if (!_context.Tenants.Any())
         {
-            _context.Tenants.Add(new Tenant { Name = "Master", Description = "Master Site" });
-            _context.Tenants.Add(new Tenant { Name = "Slave", Description = "Slave Site" });
+            _context.Tenants.Add(new Tenant { Name = "Alpha", Description = "Master Site" });
+            _context.Tenants.Add(new Tenant { Name = "SlaveUwU", Description = "Slave Site" });
             await _context.SaveChangesAsync();
         }
 
         // Default roles
         var administratorRole = new ApplicationRole(RoleName.Admin) { Description = "Admin Group" };
-        var userRole = new ApplicationRole(RoleName.Basic) { Description = "Basic Group" };
+        // var userRole = new ApplicationRole(RoleName.Basic) { Description = "Basic Group" };
         var permissions = GetAllPermissions();
         if (_roleManager.Roles.All(r => r.Name != administratorRole.Name))
         {
@@ -103,44 +103,45 @@ public class ApplicationDbContextInitializer
                     new Claim(ApplicationClaimTypes.Permission, permission));
         }
 
-        if (_roleManager.Roles.All(r => r.Name != userRole.Name))
-        {
-            await _roleManager.CreateAsync(userRole);
-            foreach (var permission in permissions)
-                if (permission.StartsWith("Permissions.Products"))
-                    await _roleManager.AddClaimAsync(userRole, new Claim(ApplicationClaimTypes.Permission, permission));
-        }
+        //if (_roleManager.Roles.All(r => r.Name != userRole.Name))
+        //{
+        //    await _roleManager.CreateAsync(userRole);
+        //    foreach (var permission in permissions)
+        //        if (permission.StartsWith("Permissions.Products"))
+        //            await _roleManager.AddClaimAsync(userRole, new Claim(ApplicationClaimTypes.Permission, permission));
+        //}
 
         // Default users
-        var administrator = new ApplicationUser
+        var superAdmin = new ApplicationUser
         {
-            UserName = UserName.Administrator, Provider = "Local", IsActive = true,
+            UserName = UserName.SuperAdmin, Provider = "Local", IsActive = true,
             TenantId = _context.Tenants.First().Id, TenantName = _context.Tenants.First().Name,
-            DisplayName = UserName.Administrator, Email = "new163@163.com", EmailConfirmed = true,
+            DisplayName = UserName.SuperAdmin, Email = "SuperAdmin@MC_Server.com", EmailConfirmed = true,
             ProfilePictureDataUrl = "https://s.gravatar.com/avatar/78be68221020124c23c665ac54e07074?s=80",
             TwoFactorEnabled = false
         };
-        var demo = new ApplicationUser
-        {
-            UserName = UserName.Demo, IsActive = true, Provider = "Local", TenantId = _context.Tenants.First().Id,
-            TenantName = _context.Tenants.First().Name, DisplayName = UserName.Demo, Email = "neozhu@126.com",
-            EmailConfirmed = true,
-            ProfilePictureDataUrl = "https://s.gravatar.com/avatar/ea753b0b0f357a41491408307ade445e?s=80"
-        };
+        //var demo = new ApplicationUser
+        //{
+        //    UserName = UserName.Demo, IsActive = true, Provider = "Local", TenantId = _context.Tenants.First().Id,
+        //    TenantName = _context.Tenants.First().Name, DisplayName = UserName.Demo, Email = "neozhu@126.com",
+        //    EmailConfirmed = true,
+        //    ProfilePictureDataUrl = "https://s.gravatar.com/avatar/ea753b0b0f357a41491408307ade445e?s=80"
+        //};
 
 
-        if (_userManager.Users.All(u => u.UserName != administrator.UserName))
+        // Check if the Super Admin Exists, if not Create the account.
+        if (_userManager.Users.All(u => u.UserName != superAdmin.UserName))
         {
-            await _userManager.CreateAsync(administrator, UserName.DefaultPassword);
-            await _userManager.AddToRolesAsync(administrator, new[] { administratorRole.Name! });
+            await _userManager.CreateAsync(superAdmin, UserName.DefaultPassword);
+            await _userManager.AddToRolesAsync(superAdmin, new[] { administratorRole.Name! });
             //await _userManager.SetTwoFactorEnabledAsync(administrator, true);
         }
 
-        if (_userManager.Users.All(u => u.UserName != demo.UserName))
-        {
-            await _userManager.CreateAsync(demo, UserName.DefaultPassword);
-            await _userManager.AddToRolesAsync(demo, new[] { userRole.Name! });
-        }
+        //if (_userManager.Users.All(u => u.UserName != demo.UserName))
+        //{
+        //    await _userManager.CreateAsync(demo, UserName.DefaultPassword);
+        //    await _userManager.AddToRolesAsync(demo, new[] { userRole.Name! });
+        //}
 
         // Default data
         // Seed, if necessary

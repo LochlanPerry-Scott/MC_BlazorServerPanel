@@ -19,12 +19,12 @@ RUN mkdir -p /app/https && \
     -subj "/C=US/ST=State/L=City/O=Organization/CN=localhost" && \
     openssl pkcs12 -export -out /app/https/aspnetapp.pfx \
     -inkey /app/https/private.key -in /app/https/certificate.crt \
-    -password pass:Password@123
+    -password pass:If(!Password@123)
 
 
 # Setup environment variables for the application to find the certificate
 ENV ASPNETCORE_URLS=http://+:80;https://+:443
-ENV ASPNETCORE_Kestrel__Certificates__Default__Password="Password@123"
+ENV ASPNETCORE_Kestrel__Certificates__Default__Password="If(!Password@123)"
 ENV ASPNETCORE_Kestrel__Certificates__Default__Path="/app/https/aspnetapp.pfx"
 
 WORKDIR /app

@@ -209,7 +209,7 @@ public static class DependencyInjection
 		services.AddScoped<IIdentityService, IdentityService>()
 			.AddAuthorizationCore(options =>
 			{
-				options.AddPolicy("CanPurge", policy => policy.RequireUserName(UserName.Administrator));
+				options.AddPolicy("CanPurge", policy => policy.RequireUserName(UserName.SuperAdmin));
 				// Here I stored necessary permissions/roles in a constant
 				foreach (var prop in typeof(Permissions).GetNestedTypes().SelectMany(c =>
 							 c.GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy)))
