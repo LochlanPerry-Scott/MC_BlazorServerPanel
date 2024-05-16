@@ -39,12 +39,12 @@ jobs:
       with:
         context: .
         push: true
-        tags: blazordevlab/cleanarchitectureblazorserver:${{ steps.version.outputs.version }}
+        tags: LochlanPerry-Scott/MC_BlazorServerPanel:${{ steps.version.outputs.version }}
 
     - name: Build and push with latest tag
       uses: docker/build-push-action@v5
       with:
         context: .
         push: true
-        tags: blazordevlab/cleanarchitectureblazorserver:latest
+        tags: LochlanPerry-Scott/MC_BlazorServerPanel:latest
      
